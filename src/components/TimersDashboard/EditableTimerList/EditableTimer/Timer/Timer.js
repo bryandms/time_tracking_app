@@ -14,13 +14,15 @@ class Timer extends Component {
           <Card.Meta>
             {this.props.project}
           </Card.Meta>
-          <Card.Description centered>
+          <Card.Description textAlign='center'>
             <h2>
               {elapsedString}
             </h2>
           </Card.Description>
           <Card.Content extra>
-            <span className='right floated edit icon'>
+            <span
+              className='right floated edit icon'
+              onClick={this.props.onEditClick}>
               <Icon name='edit' />
             </span>
             <span className='right floated trash icon'>
