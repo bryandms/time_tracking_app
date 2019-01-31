@@ -13,7 +13,9 @@ class EditableTimerList extends Component {
         elapsed={timer.elapsed}
         runningSince={timer.runningSince}
         onFormSubmit={this.props.onFormSubmit}
-        onTrashClick={this.props.onTrashClick} />
+        onTrashClick={this.props.onTrashClick}
+        onStartClick={this.props.onStartClick}
+        onStopClick={this.props.onStopClick} />
     ))
 
     return (

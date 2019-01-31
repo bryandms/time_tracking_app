@@ -1,13 +1,33 @@
 import React, { Component } from 'react'
-import { Button, Card, Icon } from 'semantic-ui-react'
+import { Card, Icon } from 'semantic-ui-react'
+
+import TimerActionButton from './TimerActionButton/TimerActionButton'
 
 class Timer extends Component {
+  componentDidMount() {
+    this.forceUpdateInterval = setInterval(() => this.forceUpdate(), 50)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.forceUpdateInterval)
+  }
+
+  handleStartClick = () => {
+    this.props.onStartClick(this.props.id)
+  }
+
+  handleStopClick = () => {
+    this.props.onStopClick(this.props.id)
+  }
+
   handleTrashClick = () => {
     this.props.onTrashClick(this.props.id)
   }
 
   render() {
-    const elapsedString = window.helpers.renderElapsedString(this.props.elapsed)
+    const elapsedString = window.helpers.renderElapsedString(
+      this.props.elapsed, this.props.runningSince
+    )
 
     return (
       <Card centered>
@@ -35,9 +55,10 @@ class Timer extends Component {
             </span>
           </Card.Content>
         </Card.Content>
-        <Button basic color='blue' attached='bottom'>
-          Start
-        </Button>
+        <TimerActionButton
+          timerIsRunning={!!this.props.runningSince}
+          onStartClick={this.handleStartClick}
+          onStopClick={this.handleStopClick} />
       </Card>
     )
   }
