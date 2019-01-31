@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { Button, Card, Icon } from 'semantic-ui-react'
 
 class Timer extends Component {
+  handleTrashClick = () => {
+    this.props.onTrashClick(this.props.id)
+  }
+
   render() {
     const elapsedString = window.helpers.renderElapsedString(this.props.elapsed)
 
@@ -25,7 +29,8 @@ class Timer extends Component {
               onClick={this.props.onEditClick}>
               <Icon name='edit' />
             </span>
-            <span className='right floated trash icon'>
+            <span className='right floated trash icon'
+              onClick={this.handleTrashClick}>
               <Icon name='trash' />
             </span>
           </Card.Content>
