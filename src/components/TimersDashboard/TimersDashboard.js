@@ -1,28 +1,23 @@
 import React, { Component } from 'react'
 import { Grid } from 'semantic-ui-react'
-import uuid from 'uuid'
 
 import EditableTimerList from './EditableTimerList/EditableTimerList'
 import ToggleableTimerForm from './ToggleableTimerForm/ToggleableTimerForm'
 
 class TimersDashboard extends Component {
   state = {
-    timers: [
-      {
-        title: 'Practice squat',
-        project: 'Gym Chores',
-        id: uuid.v4(),
-        elapsed: 5456099,
-        runningSince: Date.now()
-      },
-      {
-        title: 'Bake squash',
-        project: 'Kitchen Chores',
-        id: uuid.v4(),
-        elapsed: 1273998,
-        runningSince: null
-      }
-    ]
+    timers: []
+  }
+
+  componentDidMount() {
+    this.loadTimersFromServer()
+    setInterval(this.loadTimersFromServer, 5000)
+  }
+
+  loadTimersFromServer = () => {
+    window.client.getTimers((serverTimers) => (
+      this.setState({ timers: serverTimers })
+    ))
   }
 
   handleCreateFormSubmit = (timer) => {
@@ -50,12 +45,18 @@ class TimersDashboard extends Component {
     this.setState({
       timers: this.state.timers.concat(t)
     })
+
+    window.client.createTimer(t)
   }
 
   deleteTimer = (timerId) => {
     this.setState({
       timers: this.state.timers.filter(t => t.id !== timerId)
     })
+
+    window.client.deleteTimer(
+      { id: timerId }
+    )
   }
 
   startTimer = (timerId) => {
@@ -72,6 +73,10 @@ class TimersDashboard extends Component {
         }
       })
     })
+
+    window.client.startTimer(
+      { id: timerId, start: now }
+    )
   }
 
   stopTimer = (timerId) => {
@@ -91,6 +96,10 @@ class TimersDashboard extends Component {
         }
       })
     })
+
+    window.client.stopTimer(
+      { id: timerId, stop: now }
+    )
   }
 
   updateTimer = (attrs) => {
@@ -106,6 +115,8 @@ class TimersDashboard extends Component {
         }
       })
     })
+
+    window.client.updateTimer(attrs)
   }
 
   render() {
