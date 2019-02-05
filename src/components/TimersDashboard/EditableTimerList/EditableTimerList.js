@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Header, Icon } from 'semantic-ui-react'
 
 import EditableTimer from './EditableTimer/EditableTimer'
 
@@ -20,7 +21,14 @@ class EditableTimerList extends Component {
 
     return (
       <div id='timers'>
-        {timers}
+        {
+          timers.length ?
+          timers :
+          <Header className='mt' as='h2' icon textAlign='center'>
+            <Icon name='clock outline' disabled />
+            <Header.Subheader>There are no timers.</Header.Subheader>
+          </Header>
+        }
       </div>
     )
   }
